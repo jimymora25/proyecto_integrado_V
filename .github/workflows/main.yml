@@ -42,5 +42,5 @@ jobs:
       # 4. Ejecutar script de recolección de datos
       - name: Ejecutar script de recolección de datos
         run: |
-          python src*
+          python src*#
 
