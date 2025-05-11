@@ -40,7 +40,11 @@ jobs:
         run: |
           python src/proyecto/static/models/collector.py # Ruta corregida
 
-      # 5. Commit y subir cambios
+      # 5. Listar archivos antes del commit
+      - name: List files
+        run: ls -lR # Esto ayudará a debuggear la estructura de directorios
+
+      # 6. Commit y subir cambios
       - name: Commit y subir cambios
         run: |
           git config --local user.email "github-actions@github.com"
