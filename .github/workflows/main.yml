@@ -53,3 +53,4 @@ jobs:
           git add src/proyecto/static/data/historical.db src/proyecto/static/data/historical.csv src/proyecto/static/models/collector.log
           git commit -m "Actualizar datos económicos" || echo "No hay cambios para commitear"
           git push origin main
+          #
