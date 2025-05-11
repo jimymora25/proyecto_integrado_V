@@ -35,12 +35,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt # Instala las dependencias de tu proyecto
 
-      # 4. Ejecutar el script de recolección de datos
+      # 4. Ejecutar script de recolección de datos
       - name: Ejecutar script de recolección de datos
         run: |
-          python src/proyecto/collector.py # Asegúrate de que la ruta es la correcta
+          python proyecto_integrado_V/collector.py # Ruta corregida
 
-      # 5. Commit y push de los cambios (si hay)
+      # 5. Commit y subir cambios
       - name: Commit y subir cambios
         run: |
           git config --local user.email "github-actions@github.com"
