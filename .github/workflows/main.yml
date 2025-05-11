@@ -33,7 +33,7 @@ jobs:
         with:
           python-version: '3.9'  # Usa la versión de Python que necesites
 
-      # 3. Instalar dependencias#
+      # 3. Instalar dependencias
       - name: Instalar dependencias
         run: |
           python -m pip install --upgrade pip
@@ -42,5 +42,5 @@ jobs:
       # 4. Ejecutar script de recolección de datos
       - name: Ejecutar script de recolección de datos
         run: |
-          python src*#
-
+          python src*
+
