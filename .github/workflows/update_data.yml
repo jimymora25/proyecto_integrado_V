@@ -1,5 +1,3 @@
-permissions:
-  contents: write
 # Nombre del workflow
 name: Actualizar Datos Económicos
 
@@ -25,17 +23,17 @@ jobs:
         with:
           fetch-depth: 0 # Necesario para no perder el historial
 
-      # 2. Configurar Python
-      - name: Configurar Python 3.9
-        uses: actions/setup-python@v5
+      # 2. Configurar SSH
+      - name: Configurar SSH
+        uses: webfactory/ssh-agent@v0.8.0
         with:
-          python-version: '3.9'  # Usa la versión de Python que necesites
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
-      # 3. Instalar dependencias
-      - name: Instalar dependencias
+      # 3. Configurar Git
+      - name: Configurar Git
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt # Instala las dependencias de tu proyecto
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "GitHub Actions"
 
       # 4. Ejecutar script de recolección de datos
       - name: Ejecutar script de recolección de datos
@@ -46,17 +44,9 @@ jobs:
       - name: Listar archivos y directorios
         run: ls -lR
 
-      # 6. Actualizar cambios desde el remoto
-      - name: Actualizar cambios desde el remoto
-        run: git pull origin main
-
-      # 7. Commit y subir cambios
+      # 6. Commit y subir cambios
       - name: Commit y subir cambios
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
           git add src/proyecto/static/data/historical.db src/proyecto/static/data/historical.csv src/proyecto/static/models/collector.log
           git commit -m "Actualizar datos económicos" || echo "No hay cambios para commitear"
-          git push origin main
+          git push origin main
