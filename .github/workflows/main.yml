@@ -46,7 +46,8 @@ jobs:
       # 5. Ejecutar script de recolección de datos
       - name: Ejecutar script de recolección de datos
         run: |
-          python ProyectoV_2025/src/static/models/collector.py 
+          #python ProyectoV_2025/src/static/models/collector.py 
+          python src/proyecto/static/models/collector.py 
 
       # 6. Commit y subir cambios
       - name: Commit y subir cambios
