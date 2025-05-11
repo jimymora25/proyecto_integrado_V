@@ -40,15 +40,16 @@ jobs:
         run: |
           python src/proyecto/static/models/collector.py # Ruta corregida
 
-      # 5. Listar archivos antes del commit
-      - name: List files
-        run: ls -lR # Esto ayudará a debuggear la estructura de directorios
+      # 5. Listar archivos y directorios
+      - name: Listar archivos y directorios
+        run: ls -lR
 
       # 6. Commit y subir cambios
       - name: Commit y subir cambios
         run: |
           git config --local user.email "github-actions@github.com"
           git config --local user.name "GitHub Actions"
-          git add static/data/historical.db static/data/historical.csv static/models/collector.log # Asegúrate de agregar los archivos que se actualizan
-          git commit -m "Actualizar datos económicos" || echo "No hay cambios para commitear" # Evita el error si no hay cambios
+          # ¡IMPORTANTE!  Usando la URL proporcionada para historical.db
+          git add src/proyecto/static/data/historical.db src/proyecto/static/data/historical.csv src/proyecto/static/models/collector.log
+          git commit -m "Actualizar datos económicos" || echo "No hay cambios para commitear"
           git push origin main
