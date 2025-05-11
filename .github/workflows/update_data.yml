@@ -1,0 +1,55 @@
+# Nombre del workflow
+name: Actualizar Datos Económicos
+
+# Eventos que disparan el workflow
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Se ejecuta diariamente a las 00:00 UTC
+  push:
+    branches:
+      - main # Se ejecuta cuando hay un push a la rama main
+
+# Jobs a ejecutar
+jobs:
+  actualizar_datos:
+    # Sistema operativo donde se ejecutará el job
+    runs-on: ubuntu-latest
+
+    # Pasos del job
+    steps:
+      # 1. Checkout del código
+      - name: Checkout del código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Necesario para no perder el historial
+
+      # 2. Configurar Python
+      - name: Configurar Python 3.9
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'  # Usa la versión de Python que necesites
+
+      # 3. Instalar dependencias
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt # Instala las dependencias de tu proyecto
+
+      # 4. Ejecutar script de recolección de datos
+      - name: Ejecutar script de recolección de datos
+        run: |
+          python src/proyecto/static/models/collector.py # Ruta corregida
+
+      # 5. Listar archivos y directorios
+      - name: Listar archivos y directorios
+        run: ls -lR
+
+      # 6. Commit y subir cambios
+      - name: Commit y subir cambios
+        run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "GitHub Actions"
+          # ¡IMPORTANTE!  Usando la URL proporcionada para historical.db
+          git add src/proyecto/static/data/historical.db src/proyecto/static/data/historical.csv src/proyecto/static/models/collector.log
+          git commit -m "Actualizar datos económicos" || echo "No hay cambios para commitear"
+          git push origin main
