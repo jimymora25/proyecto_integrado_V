@@ -46,7 +46,11 @@ jobs:
       - name: Listar archivos y directorios
         run: ls -lR
 
-      # 6. Commit y subir cambios
+      # 6. Actualizar cambios desde el remoto
+      - name: Actualizar cambios desde el remoto
+        run: git pull origin main
+
+      # 7. Commit y subir cambios
       - name: Commit y subir cambios
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
