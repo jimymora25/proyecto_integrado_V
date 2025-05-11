@@ -9,6 +9,10 @@ on:
     branches:
       - main # Se ejecuta cuando hay un push a la rama main
 
+# Permisos
+permissions:
+  contents: write  # Habilitar permisos de escritura para que el bot pueda hacer push
+
 # Jobs a ejecutar
 jobs:
   actualizar_datos:
@@ -38,19 +42,5 @@ jobs:
       # 4. Ejecutar script de recolección de datos
       - name: Ejecutar script de recolección de datos
         run: |
-          python src/proyecto/static/models/collector.py # Ruta corregida
-
-      # 5. Listar archivos y directorios
-      - name: Listar archivos y directorios
-        run: ls -lR
-
-      # 6. Commit y subir cambios
-      - name: Commit y subir cambios
-        run: |
-          git config --local user.email "github-actions@github.com"
-          git config --local user.name "GitHub Actions"
-          # ¡IMPORTANTE!  Usando la URL proporcionada para historical.db
-          git add src/proyecto/static/data/historical.db src/proyecto/static/data/historical.csv src/proyecto/static/models/collector.log
-          git commit -m "Actualizar datos económicos" || echo "No hay cambios para commitear"
-          git push origin main
-          #
+          python src*
+
