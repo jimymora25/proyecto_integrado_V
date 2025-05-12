@@ -23,22 +23,22 @@ jobs:
         with:
           fetch-depth: 0 # Necesario para no perder el historial
 
-      # 2. Configurar SSH
-      - name: Configurar SSH
-        uses: webfactory/ssh-agent@v0.8.0
+      # 2. Configurar Python
+      - name: Configurar Python 3.9
+        uses: actions/setup-python@v5
         with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+          python-version: '3.9'  # Usa la versión de Python que necesites
 
-      # 3. Configurar Git
-      - name: Configurar Git
+      # 3. Instalar dependencias
+      - name: Instalar dependencias
         run: |
-          git config --local user.email "github-actions@github.com"
-          git config --local user.name "GitHub Actions"
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt # Instala las dependencias de tu proyecto
 
-      # 4. Ejecutar script de recolección de datos
+      # 4. Ejecutar script de recolección de datos y guardar en el archivo
       - name: Ejecutar script de recolección de datos
         run: |
-          python src/proyecto/static/models/collector.py # Ruta corregida
+          python src/proyecto/static/models/collector.py # Asume que este script modifica directamente historical.db y/o historical.csv
 
       # 5. Listar archivos y directorios
       - name: Listar archivos y directorios
@@ -47,6 +47,8 @@ jobs:
       # 6. Commit y subir cambios
       - name: Commit y subir cambios
         run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "GitHub Actions"
           git add src/proyecto/static/data/historical.db src/proyecto/static/data/historical.csv src/proyecto/static/models/collector.log
           git commit -m "Actualizar datos económicos" || echo "No hay cambios para commitear"
           git push origin main
