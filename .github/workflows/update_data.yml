@@ -1,3 +1,5 @@
+permissions:
+  contents: write
 # Nombre del workflow
 name: Actualizar Datos Económicos
 
